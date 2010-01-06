@@ -10,7 +10,7 @@ except ImportError:
 
 setup(
     name='mapsaw',
-    version='0.0.6',
+    version='0.2',
     author='Nick Thompson',
     author_email='nix@nixweb.com',
     maintainer_email='nix@nixweb.com',
