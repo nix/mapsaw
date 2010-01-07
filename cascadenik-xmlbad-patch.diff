@@ -1,0 +1,51 @@
+git diff cascadenik-xmlbad nix-xmlbad 
+diff --git a/cascadenik/output.py b/cascadenik/output.py
+index e2f7cb2..cbe7b29 100644
+--- a/cascadenik/output.py
++++ b/cascadenik/output.py
+@@ -51,7 +51,8 @@ class Map:
+             lay.srs = layer.srs or lay.srs
+             lay.minzoom = layer.minzoom or lay.minzoom
+             lay.maxzoom = layer.maxzoom or lay.maxzoom
+-            
++            lay.datasource = mapnik.Datasource(**layer.datasource.parameters)
++
+             for style in layer.styles:
+                 lay.styles.append(style.name)
+ 
+@@ -169,8 +170,17 @@ class LineSymbolizer:
+     def to_mapnik(self):
+         stroke = mapnik.Stroke(mapnik.Color(str(self.color)), self.width)
+         stroke.opacity = self.opacity or stroke.opacity
+-        stroke.line_cap = self.cap or stroke.line_cap
+-        stroke.line_join = self.join or stroke.line_join
++
++        cap = self.cap or stroke.line_cap
++        if isinstance(cap, str):
++            cap = getattr(mapnik.line_cap, cap.upper() + '_CAP')
++        stroke.line_cap = cap
++
++        join = self.join or stroke.line_join
++        if isinstance(join, str):
++            join = getattr(mapnik.line_join, join.upper() + '_JOIN')
++        stroke.line_join = join
++
+         sym = mapnik.LineSymbolizer(stroke)
+         
+         return sym
+@@ -234,7 +244,12 @@ class TextSymbolizer:
+         sym.allow_overlap = self.allow_overlap or sym.allow_overlap
+         
+         sym.displacement(self.dx or 0, self.dy or 0)
+-        
++
++        placement = self.placement
++        if isinstance(placement, str):
++            placement = getattr(mapnik.label_placement, placement.upper() + '_PLACEMENT')
++        sym.label_placement = placement
++
+         return sym
+ 
+ class ShieldSymbolizer:
+
+Compilation finished at Wed Jan  6 16:03:45
