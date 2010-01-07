@@ -383,10 +383,6 @@ def do_supertile(lon, lat, zoom, size, margin=128):
 
 
 if __name__ == '__main__':
-    #import_nhd()
-    #do_import_osm()
-    #sys.exit(0)
-
     #
     #  MUST BE SQUARE FOR NOW!
     #
@@ -400,27 +396,9 @@ if __name__ == '__main__':
     #marin headlands?
     #center = (-122.55, 37.87)
 
-    if 0:
-        cx,cy = center
-        w = cx - radius
-        s = cy - radius
-        e = cx + radius
-        n = cy + radius
-
-        # create a grid for the region in question
-        if 0:
-            geoxf = [w, (e-w)/1024, 0.0,
-                     n, 0.0,        (s-n)/1024]
-            grid = Grid('+init=epsg:4326', geoxf, (1024,1024))
-        if 0:
-            geoxf = [w, (e-w)/1024, 0.0,
-                     n, 0.0,        (s-n)/1024]
-            grid = Grid('+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23.0 +lon_0=-96 +units=m',
-                        geoxf, (1024,1024))
-
     img = do_supertile(center[0], center[1], 15, 1024)
     #img = do_supertile(center[0], center[1], 11, 2048)
 
     # debugging
-    glumpy_loop(img)
+    #glumpy_loop(img)
 
